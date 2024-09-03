@@ -4,6 +4,6 @@ import { Controller, Post, Body } from '@nestjs/common';
 export class WebhookController {
   @Post()
   handleWebhook(@Body() payload: any) {
-    console.log('alchemy webhook payload:', payload);
+    console.log(payload);
   }
 }

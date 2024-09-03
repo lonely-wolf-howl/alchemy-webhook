@@ -10,7 +10,7 @@ import Web3 from 'web3';
     CustomWebhookService,
     {
       provide: 'WEB3',
-      useValue: new Web3(Config.getEnvironment().EQBR_WEB3_PROVIDER),
+      useValue: new Web3(Config.getEnvironment().WHISPER_A_PROVIDER),
     },
   ],
 })

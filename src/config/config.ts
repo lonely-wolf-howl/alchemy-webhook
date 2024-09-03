@@ -5,7 +5,8 @@ dotenv.config();
 export class Config {
   static getEnvironment() {
     return {
-      EQBR_WEB3_PROVIDER: process.env.EQBR_WEB3_PROVIDER,
+      WHISPER_A_PROVIDER: process.env.WHISPER_A_PROVIDER,
+      WHISPER_B_PROVIDER: process.env.WHISPER_B_PROVIDER,
     };
   }
 }

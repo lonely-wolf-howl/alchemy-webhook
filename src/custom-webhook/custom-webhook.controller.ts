@@ -7,7 +7,7 @@ export class CustomWebhookController {
 
   @Post()
   handleWebhook(@Body() payload: any) {
-    console.log(payload);
+    console.log('Whisper A: ', payload);
   }
 
   @Post('account')
