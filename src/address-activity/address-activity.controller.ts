@@ -12,13 +12,18 @@ export class AddressActivityController {
     console.log(payload);
   }
 
-  @Post('account-a')
+  @Post('whisper-a')
   async createAccountWhisperA() {
     return await this.addressActivityService.createAccountWhisperA();
   }
 
-  @Post('account-b')
+  @Post('whisper-b')
   async createAccountWhisperB() {
     return await this.addressActivityService.createAccountWhisperB();
+  }
+
+  @Post('')
+  async webhookWhisperA() {
+    return await this.addressActivityService.webhookWhisperA();
   }
 }
