@@ -20,14 +20,9 @@ export class AddressActivityRepository {
     return this.addressActivityRepository.save(data);
   }
 
-  async getMany(from: number, to: number) {
-    return (
-      // prettier-ignore
-      this.addressActivityRepository
-        .createQueryBuilder('webhookConfig')
-        .where('JSON_CONTAINS(webhookConfig.addresses, :from)', { from: `"${from}"` })
-        .orWhere('JSON_CONTAINS(webhookConfig.addresses, :to)', { to: `"${to}"` })
-        .getMany()
-    );
+  async getMany(from: string, to: string): Promise<AddressActivity[]> {
+    return this.addressActivityRepository.find({
+      where: [{ addresses: from }, { addresses: to }],
+    });
   }
 }

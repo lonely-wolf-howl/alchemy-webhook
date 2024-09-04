@@ -11,9 +11,9 @@ export class AddressActivity {
   @Column()
   network: string;
 
-  @Column('simple-array')
-  addresses: string[];
-
   @Column()
   webhook_url: string;
+
+  @Column('simple-array')
+  addresses: string[];
 }

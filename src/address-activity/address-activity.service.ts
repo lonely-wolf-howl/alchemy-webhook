@@ -28,13 +28,13 @@ export class AddressActivityService implements OnModuleInit {
   }
 
   async registerWebhook(body: any) {
-    const { chain, network, addresses, webhookUrl } = body;
+    const { chain, network, webhookUrl, addresses } = body;
 
     const result = await this.addressActivityRepository.create({
       chain: chain,
       network: network,
-      addresses: addresses,
       webhook_url: webhookUrl,
+      addresses: addresses,
     });
     return { id: result.address_activity_id };
   }
@@ -47,6 +47,7 @@ export class AddressActivityService implements OnModuleInit {
       }
 
       const block = await this.WEB3.eth.getBlock(blockHeader.hash, true);
+
       if (block && block.transactions) {
         for (const transaction of block.transactions) {
           await this.checkAndTriggerWebhook(transaction);
@@ -56,13 +57,24 @@ export class AddressActivityService implements OnModuleInit {
   }
 
   private async checkAndTriggerWebhook(transaction: any) {
+    const minimalTransactionData = {
+      from: transaction.from,
+      to: transaction.to,
+      value: transaction.value,
+      gas: transaction.gas,
+      gasPrice: transaction.gasPrice,
+      hash: transaction.hash,
+      blockNumber: transaction.blockNumber,
+      timestamp: transaction.timestamp,
+    };
+
     const configs = await this.addressActivityRepository.getMany(
       transaction.from,
       transaction.to,
     );
 
     for (const config of configs) {
-      await this.triggerWebhook(config.webhook_url, transaction);
+      await this.triggerWebhook(config.webhook_url, minimalTransactionData);
     }
   }
 
@@ -73,9 +85,6 @@ export class AddressActivityService implements OnModuleInit {
           'Content-Type': 'application/json',
         },
       });
-      console.log(
-        `webhook triggered with transaction hash: ${transaction.hash}`,
-      );
     } catch (error) {
       console.error(`error triggering webhook: ${error.message}`);
     }
