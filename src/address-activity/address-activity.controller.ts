@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AddressActivityService } from './address-activity.service';
 
 @Controller('address-activity')
@@ -10,16 +10,6 @@ export class AddressActivityController {
   @Post()
   async handleWebhook(@Body() payload: any) {
     console.log(payload);
-  }
-
-  @Get()
-  async ping() {
-    return 'pong';
-  }
-
-  @Post('account')
-  async createAccount() {
-    return await this.addressActivityService.createAccount();
   }
 
   @Post('register')

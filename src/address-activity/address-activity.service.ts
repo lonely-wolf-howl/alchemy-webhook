@@ -1,8 +1,6 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import Web3 from 'web3';
 import axios from 'axios';
-import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
 import { AddressActivityRepository } from './repositories/address-activity.repository';
 
 @Injectable()
@@ -17,15 +15,8 @@ export class AddressActivityService implements OnModuleInit {
   constructor(
     @Inject('WEB3')
     private readonly WEB3: Web3,
-    @InjectDataSource('connection1')
-    private readonly connection1: DataSource,
     private readonly addressActivityRepository: AddressActivityRepository,
   ) {}
-
-  async createAccount() {
-    const account: any = this.WEB3.eth.accounts.create();
-    return account;
-  }
 
   async registerWebhook(body: any) {
     const { chain, network, webhookUrl, addresses } = body;
@@ -57,7 +48,7 @@ export class AddressActivityService implements OnModuleInit {
   }
 
   private async checkAndTriggerWebhook(transaction: any) {
-    const minimalTransactionData = {
+    const minimalTransaction = {
       from: transaction.from,
       to: transaction.to,
       value: transaction.value,
@@ -74,7 +65,7 @@ export class AddressActivityService implements OnModuleInit {
     );
 
     for (const config of configs) {
-      await this.triggerWebhook(config.webhook_url, minimalTransactionData);
+      await this.triggerWebhook(config.webhook_url, minimalTransaction);
     }
   }
 
