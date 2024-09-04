@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddressActivity } from '../entities/address-activity.entity';
 
@@ -9,6 +9,16 @@ export class AddressActivityRepository {
     @InjectRepository(AddressActivity, 'connection1')
     private readonly addressActivityRepository: Repository<AddressActivity>,
   ) {}
+
+  async create(
+    data: Partial<AddressActivity>,
+    transaction?: EntityManager,
+  ): Promise<AddressActivity> {
+    if (transaction) {
+      return transaction.getRepository(AddressActivity).save(data);
+    }
+    return this.addressActivityRepository.save(data);
+  }
 
   async getMany(from: number, to: number) {
     return (

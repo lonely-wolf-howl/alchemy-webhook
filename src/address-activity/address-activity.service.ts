@@ -27,6 +27,18 @@ export class AddressActivityService implements OnModuleInit {
     return account;
   }
 
+  async registerWebhook(body: any) {
+    const { chain, network, addresses, webhookUrl } = body;
+
+    const result = await this.addressActivityRepository.create({
+      chain: chain,
+      network: network,
+      addresses: addresses,
+      webhook_url: webhookUrl,
+    });
+    return { id: result.address_activity_id };
+  }
+
   private monitorBlocks() {
     this.WEB3.eth.subscribe('newBlockHeaders', async (error, blockHeader) => {
       if (error) {

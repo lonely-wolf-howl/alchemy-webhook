@@ -16,4 +16,9 @@ export class AddressActivityController {
   async createAccount() {
     return await this.addressActivityService.createAccount();
   }
+
+  @Post('register')
+  async registerWebhook(@Body() body: any) {
+    return await this.addressActivityService.registerWebhook(body);
+  }
 }
