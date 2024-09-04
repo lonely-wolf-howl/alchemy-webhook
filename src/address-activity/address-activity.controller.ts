@@ -12,18 +12,8 @@ export class AddressActivityController {
     console.log(payload);
   }
 
-  @Post('whisper-a')
-  async createAccountWhisperA() {
-    return await this.addressActivityService.createAccountWhisperA();
-  }
-
-  @Post('whisper-b')
-  async createAccountWhisperB() {
-    return await this.addressActivityService.createAccountWhisperB();
-  }
-
-  @Post('')
-  async webhookWhisperA() {
-    return await this.addressActivityService.webhookWhisperA();
+  @Post('account')
+  async createAccount() {
+    return await this.addressActivityService.createAccount();
   }
 }
